@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
                   Text(
                     'Al-Qur\u0027an App',
                     style: GoogleFonts.poppins(
-                        color: Colors.white,
+                        color: white,
                         fontWeight: FontWeight.bold,
                         fontSize: 26),
                   ),
