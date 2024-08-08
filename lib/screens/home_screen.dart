@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alquran/constant.dart';
+import 'package:flutter_alquran/screens/doa.dart';
+import 'package:flutter_alquran/screens/dzikir.dart';
+import 'package:flutter_alquran/screens/tafsir.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,7 +17,7 @@ class HomeScreen extends StatelessWidget {
       body: DefaultTabController(
         length: 4,
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(16.0),
           child: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
               SliverToBoxAdapter(
@@ -39,14 +42,14 @@ class HomeScreen extends StatelessWidget {
                       indicatorSize: TabBarIndicatorSize.tab,
                       tabs: [
                         _tabItem(label: 'Surah'),
-                        _tabItem(label: 'Surah'),
-                        _tabItem(label: 'Surah'),
-                        _tabItem(label: 'Surah'),
+                        _tabItem(label: 'Tafsir'),
+                        _tabItem(label: 'Do\u0027a'),
+                        _tabItem(label: 'Dzikir'),
                       ]),
                 ),
               )
             ],
-            body: Container(),
+            body: const TabBarView(children: [Tafsir(), Doa(), Dzikir()]),
           ),
         ),
       ),
@@ -102,8 +105,7 @@ class HomeScreen extends StatelessWidget {
           label: 'Surah',
         ),
         BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/svgs/lamp-icon.svg'), 
-            label: 'Tips'),
+            icon: SvgPicture.asset('assets/svgs/lamp-icon.svg'), label: 'Tips'),
         BottomNavigationBarItem(
             icon: SvgPicture.asset('assets/svgs/pray-icon.svg'),
             label: 'Sholat'),
