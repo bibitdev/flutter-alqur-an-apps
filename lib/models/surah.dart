@@ -6,7 +6,6 @@ import 'dart:convert';
 
 import 'package:flutter_alquran/models/ayat.dart';
 
-
 List<Surah> surahFromJson(String str) =>
     List<Surah>.from(json.decode(str).map((x) => Surah.fromJson(x)));
 
