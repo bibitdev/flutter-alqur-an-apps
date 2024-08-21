@@ -64,52 +64,53 @@ class SurahTab extends StatelessWidget {
                 width: 16,
               ),
               Expanded(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    surah.namaLatin,
-                    style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        surah.tempatTurun.name,
-                        style: GoogleFonts.poppins(
-                            color: text,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Container(
-                        width: 4,
-                        height: 4,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(2),
-                            color: text),
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "${surah.jumlahAyat} Ayat",
-                        style: GoogleFonts.poppins(
-                            color: text,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12),
-                      ),
-                    ],
-                  )
-                ],
-              )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      surah.namaLatin,
+                      style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          surah.tempatTurun.name,
+                          style: GoogleFonts.poppins(
+                              color: text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Container(
+                          width: 4,
+                          height: 4,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2),
+                              color: text),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "${surah.jumlahAyat} Ayat",
+                          style: GoogleFonts.poppins(
+                              color: text,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
               Text(
                 surah.nama,
                 style: GoogleFonts.amiri(
