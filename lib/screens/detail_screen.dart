@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alquran/constant.dart';
+import 'package:flutter_alquran/models/ayat.dart';
 import 'package:flutter_alquran/models/surah.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +14,7 @@ class DetailScreen extends StatelessWidget {
   final int noSurah;
   Future<Surah> _getDetailSurah() async {
     var data = await Dio().get('https://equran.id/api/surat/$noSurah');
-    print(data);
+    // print(data);
     return Surah.fromJson(jsonDecode(data.toString()));
   }
 
@@ -39,15 +40,97 @@ class DetailScreen extends StatelessWidget {
               )
             ],
             body: Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 24,
               ),
+              child: ListView.separated(
+                 itemBuilder: (context, index) => _ayatItem(
+                      ayat: surah.ayat!
+                          .elementAt(index + (noSurah == 1 ? 1 : 0))),
+                  itemCount: surah.jumlahAyat + (noSurah == 1 ? -1 : 0),
+                  separatorBuilder: (context, index) => Container(),)
             ),
           ),
         );
       }),
     );
   }
+
+  Widget _ayatItem({required Ayat ayat}) => Padding(
+        padding: const EdgeInsets.only(top: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 10
+              ),
+              decoration: BoxDecoration(
+                  color: grey, borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                children: [
+                  Container(
+                    width: 27,
+                    height: 27,
+                    decoration: BoxDecoration(
+                        color: primary,
+                        borderRadius: BorderRadius.circular(27 / 2)),
+                    child: Center(
+                        child: Text(
+                      '${ayat.nomor}',
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500, color: Colors.white),
+                    )),
+                  ),
+                  const Spacer(),
+                  const Icon(
+                    Icons.share_outlined,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 16.0,
+                  ),
+                  const Icon(
+                    Icons.play_arrow_outlined,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(
+                    width: 16.0,
+                  ),
+                  const Icon(
+                    Icons.bookmark_outline,
+                    color: Colors.white,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+            Text(
+              ayat.ar,
+              textAlign: TextAlign.end,
+              style: GoogleFonts.amiri(
+                color: white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              
+              ),
+            ),
+            const SizedBox(
+              height: 12.0,
+            ),
+            Text(
+              ayat.idn,
+              style: GoogleFonts.amiri(
+                color: white,
+                fontSize: 16.0,
+              ),
+            )
+          ],
+        ),
+      );
 
   Widget _details({required Surah surah}) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
