@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "nama": "Tasbih",
+    "ar": "سُبْحَانَ اللّٰهِ",
+    "idn": "Maha Suci Allah",
+    "tentang": "Dzikir untuk mensucikan Allah dari segala kekurangan",
+    "jumlah": "33"
+  },
+  {
+    "id": 2,
+    "nama": "Tahmid",
+    "ar": "اَلْحَمْدُ لِلّٰهِ",
+    "idn": "Segala puji bagi Allah",
+    "tentang": "Dzikir untuk memuji Allah atas segala nikmat-Nya",
+    "jumlah": "33"
+  },
+  {
+    "id": 3,
+    "nama": "Takbir",
+    "ar": "اَللّٰهُ اَكْبَرُ",
+    "idn": "Allah Maha Besar",
+    "tentang": "Dzikir untuk mengagungkan kebesaran Allah",
+    "jumlah": "34"
+  },
+  {
+    "id": 4,
+    "nama": "Tahlil",
+    "ar": "لَا إِلٰهَ إِلَّا اللّٰهُ",
+    "idn": "Tiada Tuhan selain Allah",
+    "tentang": "Kalimat tauhid yang merupakan inti dari keimanan",
+    "jumlah": "100"
+  },
+  {
+    "id": 5,
+    "nama": "Istigfar",
+    "ar": "أَسْتَغْفِرُ اللّٰهَ",
+    "idn": "Aku memohon ampun kepada Allah",
+    "tentang": "Dzikir untuk memohon ampunan dari Allah",
+    "jumlah": "100"
+  },
+  {
+    "id": 6,
+    "nama": "Hauqalah",
+    "ar": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ",
+    "idn": "Tiada daya dan kekuatan kecuali dengan pertolongan Allah",
+    "tentang": "Dzikir ketika menghadapi kesulitan dan memohon pertolongan Allah",
+    "jumlah": ""
+  },
+  {
+    "id": 7,
+    "nama": "Hasbunallah",
+    "ar": "حَسْبُنَا اللّٰهُ وَنِعْمَ الْوَكِيْلُ",
+    "idn": "Cukuplah Allah menjadi penolong kami dan Allah adalah sebaik-baik pelindung",
+    "tentang": "Dzikir untuk menyerahkan segala urusan kepada Allah",
+    "jumlah": ""
+  },
+  {
+    "id": 8,
+    "nama": "Shalawat Nabi",
+    "ar": "اَللّٰهُمَّ صَلِّ عَلٰى مُحَمَّدٍ وَعَلٰى اٰلِ مُحَمَّدٍ",
+    "idn": "Ya Allah, limpahkanlah rahmat kepada Nabi Muhammad dan keluarganya",
+    "tentang": "Dzikir untuk bershalawat kepada Nabi Muhammad SAW",
+    "jumlah": "10"
+  },
+  {
+    "id": 9,
+    "nama": "Ayat Kursi",
+    "ar": "اَللّٰهُ لَا اِلٰهَ اِلَّا هُوَۚ اَلْحَيُّ الْقَيُّوْمُۚ لَا تَأْخُذُهٗ سِنَةٌ وَّلَا نَوْمٌۗ",
+    "idn": "Allah, tidak ada tuhan selain Dia. Yang Mahahidup, Yang terus menerus mengurus (makhluk-Nya), tidak mengantuk dan tidak tidur",
+    "tentang": "Ayat paling agung dalam Al-Quran, dibaca setelah shalat dan sebelum tidur",
+    "jumlah": "1"
+  },
+  {
+    "id": 10,
+    "nama": "Dzikir Pagi Petang",
+    "ar": "اَللّٰهُمَّ اِنِّيْ اَصْبَحْتُ مِنْكَ فِيْ نِعْمَةٍ وَعَافِيَةٍ وَسِتْرٍ",
+    "idn": "Ya Allah, di pagi/petang hari ini aku berada dalam nikmat, kesehatan dan perlindungan dari-Mu",
+    "tentang": "Dzikir yang dibaca di pagi dan petang hari",
+    "jumlah": "1"
+  }
+]
