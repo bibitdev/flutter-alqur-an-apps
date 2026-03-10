@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alquran/constant.dart';
+import 'package:flutter_alquran/screens/search_doa_dzikir_screen.dart';
 import 'package:flutter_alquran/tabs/doa_tab.dart';
 import 'package:flutter_alquran/tabs/dzikir_tab.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,7 +28,13 @@ class DoaDzikirScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SearchDoaDzikirScreen(),
+                    ),
+                  );
+                },
                 icon: SvgPicture.asset('assets/svgs/search-icon.svg'),
               ),
             )

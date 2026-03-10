@@ -17,13 +17,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  final _bookmarkKey = GlobalKey<BookmarkScreenState>();
 
-  final List<Widget> _screens = const [
-    HomeScreen(),
-    Tafsir(),
-    DoaDzikirScreen(),
-    JadwalSholatScreen(),
-    BookmarkScreen(),
+  late final List<Widget> _screens = [
+    const HomeScreen(),
+    const Tafsir(),
+    const DoaDzikirScreen(),
+    const JadwalSholatScreen(),
+    BookmarkScreen(key: _bookmarkKey),
   ];
 
   @override
@@ -51,6 +52,9 @@ class _MainScreenState extends State<MainScreen> {
             setState(() {
               _currentIndex = index;
             });
+            if (index == 4) {
+              _bookmarkKey.currentState?.loadBookmarks();
+            }
           },
           type: BottomNavigationBarType.fixed,
           backgroundColor: grey,

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_alquran/constant.dart';
 import 'package:flutter_alquran/models/surah.dart';
 import 'package:flutter_alquran/screens/detail_tafsir_screen.dart';
+import 'package:flutter_alquran/screens/search_tafsir_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -30,7 +31,13 @@ class Tafsir extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SearchTafsirScreen(),
+                  ),
+                );
+              },
               icon: SvgPicture.asset('assets/svgs/search-icon.svg'),
             ),
           )

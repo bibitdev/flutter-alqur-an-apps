@@ -4,25 +4,93 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alquran/constant.dart';
 import 'package:flutter_alquran/models/ayat.dart';
+import 'package:flutter_alquran/models/bookmark.dart';
 import 'package:flutter_alquran/models/surah.dart';
+import 'package:flutter_alquran/services/bookmark_service.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key, required this.noSurah});
 
   final int noSurah;
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  late Future<Surah> _surahFuture;
+  final Set<String> _bookmarkedKeys = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _surahFuture = _getDetailSurah();
+    _loadBookmarks();
+  }
+
   Future<Surah> _getDetailSurah() async {
-    var data = await Dio().get('https://equran.id/api/surat/$noSurah');
-    // print(data);
+    var data = await Dio().get('https://equran.id/api/surat/${widget.noSurah}');
     return Surah.fromJson(jsonDecode(data.toString()));
+  }
+
+  Future<void> _loadBookmarks() async {
+    final bookmarks = await BookmarkService.getBookmarks();
+    setState(() {
+      _bookmarkedKeys.clear();
+      for (var b in bookmarks) {
+        if (b.surahNomor == widget.noSurah) {
+          _bookmarkedKeys.add(b.key);
+        }
+      }
+    });
+  }
+
+  Future<void> _toggleBookmark(Surah surah, Ayat ayat) async {
+    final bookmark = Bookmark(
+      surahNomor: surah.nomor,
+      surahNamaLatin: surah.namaLatin,
+      surahNama: surah.nama,
+      ayatNomor: ayat.nomor,
+      ayatAr: ayat.ar,
+      ayatIdn: ayat.idn,
+      createdAt: DateTime.now(),
+    );
+
+    final isNowBookmarked = await BookmarkService.toggleBookmark(bookmark);
+
+    setState(() {
+      if (isNowBookmarked) {
+        _bookmarkedKeys.add(bookmark.key);
+      } else {
+        _bookmarkedKeys.remove(bookmark.key);
+      }
+    });
+
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          isNowBookmarked
+              ? 'Ayat ${ayat.nomor} berhasil di-bookmark'
+              : 'Bookmark ayat ${ayat.nomor} dihapus',
+          style: GoogleFonts.poppins(),
+        ),
+        backgroundColor: isNowBookmarked ? primary : Colors.grey[700],
+        duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Surah>(
       initialData: null,
-      future: _getDetailSurah(),
+      future: _surahFuture,
       builder: ((context, snapshot) {
         if (!snapshot.hasData) {
           return Scaffold(
@@ -40,97 +108,102 @@ class DetailScreen extends StatelessWidget {
               )
             ],
             body: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-              ),
-              child: ListView.separated(
-                 itemBuilder: (context, index) => _ayatItem(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                ),
+                child: ListView.separated(
+                  itemBuilder: (context, index) => _ayatItem(
+                      surah: surah,
                       ayat: surah.ayat!
-                          .elementAt(index + (noSurah == 1 ? 1 : 0))),
-                  itemCount: surah.jumlahAyat + (noSurah == 1 ? -1 : 0),
-                  separatorBuilder: (context, index) => Container(),)
-            ),
+                          .elementAt(index + (widget.noSurah == 1 ? 1 : 0))),
+                  itemCount: surah.jumlahAyat + (widget.noSurah == 1 ? -1 : 0),
+                  separatorBuilder: (context, index) => Container(),
+                )),
           ),
         );
       }),
     );
   }
 
-  Widget _ayatItem({required Ayat ayat}) => Padding(
-        padding: const EdgeInsets.only(top: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 10
-              ),
-              decoration: BoxDecoration(
-                  color: grey, borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                children: [
-                  Container(
-                    width: 27,
-                    height: 27,
-                    decoration: BoxDecoration(
-                        color: primary,
-                        borderRadius: BorderRadius.circular(27 / 2)),
-                    child: Center(
-                        child: Text(
-                      '${ayat.nomor}',
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500, color: Colors.white),
-                    )),
+  Widget _ayatItem({required Surah surah, required Ayat ayat}) {
+    final bookmarkKey = '${surah.nomor}_${ayat.nomor}';
+    final isBookmarked = _bookmarkedKeys.contains(bookmarkKey);
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+                color: grey, borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              children: [
+                Container(
+                  width: 27,
+                  height: 27,
+                  decoration: BoxDecoration(
+                      color: primary,
+                      borderRadius: BorderRadius.circular(27 / 2)),
+                  child: Center(
+                      child: Text(
+                    '${ayat.nomor}',
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500, color: Colors.white),
+                  )),
+                ),
+                const Spacer(),
+                const Icon(
+                  Icons.share_outlined,
+                  color: Colors.white,
+                ),
+                const SizedBox(
+                  width: 16.0,
+                ),
+                const Icon(
+                  Icons.play_arrow_outlined,
+                  color: Colors.white,
+                ),
+                const SizedBox(
+                  width: 16.0,
+                ),
+                GestureDetector(
+                  onTap: () => _toggleBookmark(surah, ayat),
+                  child: Icon(
+                    isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
+                    color: isBookmarked ? orange : Colors.white,
                   ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.share_outlined,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 16.0,
-                  ),
-                  const Icon(
-                    Icons.play_arrow_outlined,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 16.0,
-                  ),
-                  const Icon(
-                    Icons.bookmark_outline,
-                    color: Colors.white,
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 24.0,
+          ),
+          const SizedBox(
+            height: 24.0,
+          ),
+          Text(
+            ayat.ar,
+            textAlign: TextAlign.end,
+            style: GoogleFonts.amiri(
+              color: white,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
             ),
-            Text(
-              ayat.ar,
-              textAlign: TextAlign.end,
-              style: GoogleFonts.amiri(
-                color: white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              
-              ),
+          ),
+          const SizedBox(
+            height: 12.0,
+          ),
+          Text(
+            ayat.idn,
+            style: GoogleFonts.amiri(
+              color: white,
+              fontSize: 16.0,
             ),
-            const SizedBox(
-              height: 12.0,
-            ),
-            Text(
-              ayat.idn,
-              style: GoogleFonts.amiri(
-                color: white,
-                fontSize: 16.0,
-              ),
-            )
-          ],
-        ),
-      );
+          )
+        ],
+      ),
+    );
+  }
 
   Widget _details({required Surah surah}) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),

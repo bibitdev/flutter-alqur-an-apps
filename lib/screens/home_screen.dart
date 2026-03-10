@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alquran/constant.dart';
+import 'package:flutter_alquran/screens/search_screen.dart';
 import 'package:flutter_alquran/tabs/surah_tab.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: background,
-      appBar: _appbar(),
+      appBar: _appbar(context),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: NestedScrollView(
@@ -26,7 +27,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  AppBar _appbar() {
+  AppBar _appbar(BuildContext context) {
     return AppBar(
       backgroundColor: background,
       elevation: 0,
@@ -43,7 +44,13 @@ class HomeScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SearchScreen(),
+                ),
+              );
+            },
             icon: SvgPicture.asset('assets/svgs/search-icon.svg'),
           ),
         )
